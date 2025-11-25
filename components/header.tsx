@@ -4,7 +4,7 @@ import { Gift, UserRound, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { ModeToggle } from "./theme-toggle";
-import { logout } from "@/app/logout/actions";
+import { logout } from "@/app/(auth)/logout/actions";
 
 export default function Header() {
   const handleLogout = async () => {
