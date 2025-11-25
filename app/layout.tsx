@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { ModeToggle } from "@/components/theme-toggle";
 
 const montserrat = Montserrat({
   weight: ["400", "500", "600", "700"],
@@ -31,7 +30,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {/* <ModeToggle /> */}
           {children}
         </ThemeProvider>
       </body>

@@ -20,7 +20,6 @@ import { Input } from "./ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import z from "zod";
-import { Label } from "./ui/label";
 
 interface Participant {
   name: string;
@@ -29,6 +28,8 @@ interface Participant {
 
 const formSchema = z.object({
   group_name: z.string().min(3, "Digite no minímo 3 caracteres!"),
+  name: z.string().min(1, "Digite o nome do participante"),
+  email: z.email("Digite um email válido"),
 });
 
 export default function NewGroupForm({
@@ -47,6 +48,8 @@ export default function NewGroupForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       group_name: "",
+      name: "",
+      email: "",
     },
   });
 
@@ -62,7 +65,7 @@ export default function NewGroupForm({
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto shadow-2xl">
       <CardHeader>
         <CardTitle>Novo groupo</CardTitle>
         <CardDescription>Convide seus amigos para participar</CardDescription>
@@ -89,35 +92,51 @@ export default function NewGroupForm({
             {participants.map((participant, index) => (
               <div
                 key={index}
-                className="felx flex-col md:flex-row items-end space-y-4 md:space-y-0 md:space-x-4"
+                className="flex flex-col md:flex-row justify-center space-y-4 md:space-x-4"
               >
                 <div className="grow space-y-2 w-full">
-                  <Label htmlFor={`name-${index}`}>Nome</Label>
-                  <Input
-                    id={`name-${index}`}
+                  <FormField
+                    control={form.control}
                     name="name"
-                    value={participant.name}
-                    onChange={(e) => {
-                      updateParticipant(index, "name", e.target.value);
-                    }}
-                    placeholder="Digite o nome da pessoa"
-                    required
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Nome</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Digite o nome da pessoa"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
                 <div className="grow space-y-2 w-full">
-                  <Label htmlFor={`email-${index}`}>Email</Label>
-                  <Input
-                    id={`email-${index}`}
+                  <FormField
+                    control={form.control}
                     name="email"
-                    type="email"
-                    value={participant.email}
-                    onChange={(e) => {
-                      updateParticipant(index, "email", e.target.value);
-                    }}
-                    placeholder="Digite o email da pessoa"
-                    className="readonly:text-muted-foreground"
-                    readOnly={participant.email === loggedUser.email}
-                    required
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            id={`email-${index}`}
+                            type="email"
+                            value={participant.email || loggedUser.email}
+                            onChange={(e) => {
+                              updateParticipant(index, "email", e.target.value);
+                              field.onChange(e);
+                            }}
+                            placeholder="Digite o email da pessoa"
+                            className="readonly:text-muted-foreground"
+                            readOnly={index === 0}
+                            required
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
                 </div>
               </div>

@@ -7,18 +7,18 @@ export default async function AppLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    const supabase = await createClient()
+  const supabase = await createClient();
 
-    const {data, error} = await supabase.auth.getUser()
+  const { data, error } = await supabase.auth.getUser();
 
-    if(error || !data?.user) {
-        redirect("/login")
-    }
+  if (error || !data?.user) {
+    redirect("/login");
+  }
 
   return (
     <div>
       <Header />
-      {children}
+      <main className="container mx-auto p-4">{children}</main>
     </div>
   );
 }

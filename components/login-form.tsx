@@ -57,7 +57,7 @@ export default function LoginForm() {
   };
 
   return (
-    <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm shadow-2xl">
       <CardHeader>
         <CardTitle>Login</CardTitle>
         <CardDescription>

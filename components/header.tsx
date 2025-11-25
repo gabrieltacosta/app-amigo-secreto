@@ -1,8 +1,16 @@
-import { Gift, UserRound } from "lucide-react";
+"use client";
+
+import { Gift, UserRound, LogOut } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
+import { ModeToggle } from "./theme-toggle";
+import { logout } from "@/app/logout/actions";
 
 export default function Header() {
+  const handleLogout = async () => {
+    await logout();
+  };
+
   return (
     <header className="border-b">
       <div className="container mx-auto p-4">
@@ -25,9 +33,19 @@ export default function Header() {
               <UserRound className="w-4 h-4" />
               Meus Grupos
             </Link>
-            <Button asChild variant={"outline"}>
+            <Button asChild variant="outline">
               <Link href={"/app/grupos/novo"}>Novo Grupo</Link>
             </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleLogout}
+              className="flex gap-2 items-center"
+            >
+              <LogOut className="w-4 h-4" />
+              Sair
+            </Button>
+            <ModeToggle />
           </nav>
         </div>
       </div>
